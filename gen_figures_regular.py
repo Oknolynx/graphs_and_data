@@ -100,7 +100,7 @@ def nice_driver_name(driver):
     elif driver == 'nullcrypto-disabled':
         return 'Unencrypted'
     elif driver == 'nullcrypto-enabled':
-        return 'Nullcrypto'
+        return 'Null cipher'
 
 
 def nice_suffix(suffix):
@@ -222,7 +222,7 @@ def handle_directory(directory):
 
             fig.tight_layout()
             fig.savefig(figure_path, bbox_inches='tight')
-            plt.show()
+            # plt.show()
             plt.close(fig)
 
 

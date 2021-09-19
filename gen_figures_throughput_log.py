@@ -12,6 +12,7 @@ from os.path import basename, join
 JSON_FOLDER = 'json_throughput_log'
 REGEX_GROUPS = ['mode', 'blocksize', 'driver', 'disk', 'suffix']
 LINEWIDTH = 0.4
+LEGEND_LINEWIDTH = 1
 
 
 def observed_group_vals(directory):
@@ -103,7 +104,8 @@ def generate_throughput_graphs(timestamps, throughput_data, drivers, blocksize, 
     blocksize = blocksize[:-1]
     for ts, driver, data in zip(timestamps, drivers, throughput_data):
         ax.plot(ts, data, label=nice_driver_name(driver), linewidth=LINEWIDTH)
-    ax.legend(loc='upper right', frameon=False)
+    legend = ax.legend(loc='upper right', frameon=False)
+    plt.setp(legend.get_lines(), linewidth=LEGEND_LINEWIDTH)
     suffix = nice_suffix(suffix)
     title = f'{nice_mode_name(mode)} over time ({nice_disk_name(disk)}, {blocksize} KiB blocks'
     title += f', {suffix})' if suffix != '' else ')'
@@ -118,7 +120,7 @@ def generate_boxplots(throughput_data, drivers, blocksize, mode, disk, suffix, a
     flierprops = dict(marker='.', markerfacecolor='black', linestyle='none', markersize=3)
     ax.boxplot(throughput_data, labels=drivers, flierprops=flierprops)
     suffix = nice_suffix(suffix)
-    title = f'Distribution of {nice_mode_name(mode)} ({nice_disk_name(disk)}, {blocksize} KiB blocks'
+    title = f'Distribution of {nice_mode_name(mode).lower()} ({nice_disk_name(disk)}, {blocksize} KiB blocks'
     title += f', {suffix})' if suffix != '' else ')'
     ax.set_title(title)
     ax.set_ylabel('Read rate [MiB/s]')
