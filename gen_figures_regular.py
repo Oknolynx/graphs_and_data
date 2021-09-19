@@ -74,9 +74,9 @@ def filename_from_group_vals(mode, blocksize, driver, disk, suffix, number=''):
 
 def nice_mode_name(mode):
     if mode == 'seqread':
-        return 'Sequential reading'
+        return 'Sequential read rate'
     elif mode == 'randread':
-        return 'Random-access reading'
+        return 'Random-access read rate'
 
 
 def nice_disk_name(disk):
@@ -98,12 +98,24 @@ def nice_driver_name(driver):
     elif (driver == 'luks2flt') or (driver == 'luks2flt-beforemoreopts'):
         return 'luks2flt'
     elif driver == 'nullcrypto-disabled':
-        return 'Regular'
+        return 'Unencrypted'
     elif driver == 'nullcrypto-enabled':
         return 'Nullcrypto'
 
 
-def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode, disk, ax):
+def nice_suffix(suffix):
+    suffix_parts = []
+    if 'numjobs8' in suffix:
+        suffix_parts += ['numjobs=8']
+    if 'numjobs16' in suffix:
+        suffix_parts += ['numjobs=16']
+    if 'iodepth16' in suffix:
+        suffix_parts += ['iodepth=16']
+    if 'logmsec16' in suffix:
+        suffix_parts += ['16 ms average']
+    return ', '.join(suffix_parts)
+
+def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode, disk, suffix, ax):
     '''
     parameters:
         - throughput_data: list that contains the throughputs of the different drivers
@@ -114,6 +126,7 @@ def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode,
         in the same order as the data in `throughput_data`
         - disk: name of the disk (e.g. 'hdd' or 'ssd')
         - mode: mode of the data (e.g. 'seqread' or 'randread')
+        - suffix: value of the suffix regex group
         - ax: matplotlib axis used for plotting
     '''
     strip_k_suffix = lambda bs: bs[:-1]
@@ -125,9 +138,12 @@ def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode,
         ax.legend(loc='lower left', frameon=False, ncol=columns)
     elif mode == 'randread':
         ax.legend(loc='upper left', frameon=False)
-    ax.set_title(nice_mode_name(mode) + f' ({nice_disk_name(disk)})')
+    suffix = nice_suffix(suffix)
+    title = nice_mode_name(mode)
+    title += f' ({nice_disk_name(disk)}, {suffix})' if suffix != '' else f' ({nice_disk_name(disk)})'
+    ax.set_title(title)
     ax.set_xlabel('Block size [KiB]')
-    ax.set_ylabel('Throughput [MiB/s]')
+    ax.set_ylabel('Read rate [MiB/s]')
 
 
 def get_throughput_data(json_path):
@@ -201,12 +217,13 @@ def handle_directory(directory):
                     final_data[disk][ii] = data / 1024 / 1024
 
                 ax = axes[i] if len(disks) > 1 else axes
-                generate_throughput_graphs(final_data[disk], drivers, blocksizes, mode, disk, ax)
-                # plt.setp(ax.get_xticklabels(), ha="right", rotation=45)
+                generate_throughput_graphs(final_data[disk], drivers, blocksizes, mode, disk, suffix, ax)
                 ax.set_ylim(bottom=0)
 
             fig.tight_layout()
             fig.savefig(figure_path, bbox_inches='tight')
+            plt.show()
+            plt.close(fig)
 
 
 if __name__ == '__main__':
