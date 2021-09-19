@@ -1,3 +1,6 @@
-figures/
+.vscode/
+__pycache__/
+figures/*
+!figures/rename.bat
 json/*
-old_scripts/
+json_throughput_log/*
