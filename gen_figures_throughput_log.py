@@ -4,7 +4,7 @@ import csv
 import matplotlib.pyplot as plt
 import numpy as np
 import re
-from gen_figures_regular import FIGURE_SIZE, FIGURES_FOLDER, FONT_OPTIONS, nice_disk_name, nice_driver_name, nice_mode_name, nice_suffix, sort_blocksizes
+from gen_figures_regular import FIGURE_SIZE, FIGURES_FOLDER, FONT_OPTIONS, nice_driver_name, nice_mode_name, nice_suffix, sort_blocksizes
 from os import listdir
 from os.path import basename, join
 
@@ -107,7 +107,7 @@ def generate_throughput_graphs(timestamps, throughput_data, drivers, blocksize, 
     legend = ax.legend(loc='upper right', frameon=False)
     plt.setp(legend.get_lines(), linewidth=LEGEND_LINEWIDTH)
     suffix = nice_suffix(suffix)
-    title = f'{nice_mode_name(mode)} over time ({nice_disk_name(disk)}, {blocksize} KiB blocks'
+    title = f'{nice_mode_name(mode)} over time ({blocksize} KiB blocks'
     title += f', {suffix})' if suffix != '' else ')'
     ax.set_title(title)
     ax.set_xlabel('Time [s]')
@@ -120,7 +120,7 @@ def generate_boxplots(throughput_data, drivers, blocksize, mode, disk, suffix, a
     flierprops = dict(marker='.', markerfacecolor='black', linestyle='none', markersize=3)
     ax.boxplot(throughput_data, labels=drivers, flierprops=flierprops)
     suffix = nice_suffix(suffix)
-    title = f'Distribution of {nice_mode_name(mode).lower()} ({nice_disk_name(disk)}, {blocksize} KiB blocks'
+    title = f'Distribution of {nice_mode_name(mode).lower()} ({blocksize} KiB blocks'
     title += f', {suffix})' if suffix != '' else ')'
     ax.set_title(title)
     ax.set_ylabel('Read rate [MiB/s]')

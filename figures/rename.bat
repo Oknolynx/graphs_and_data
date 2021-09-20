@@ -1,12 +1,6 @@
 rename "VM_seqread.pdf" "performance.vmexperiments.seq.pdf"
 rename "VM_randread.pdf" "performance.vmexperiments.rand.pdf"
 
-rename "nullcrypto_seqread_numjobs8.pdf" "performance.hwexperiments.nullcipherseq.pdf"
-rename "nullcrypto_randread_numjobs8.pdf" "performance.hwexperiments.nullcipherrand.pdf"
-
-rename "before more aggressive opts iodepth 1+numjobs 1_seqread.pdf" "performance.hwexperiments.beforeoptseq.pdf"
-rename "before more aggressive opts iodepth 1+numjobs 1_randread.pdf" "performance.hwexperiments.beforeoptrand.pdf"
-
 rename "optimizedv2 all iodepth and numjobs combos_seqread_iodepth1_numjobs1.pdf" "performance.hwexperiments.optseq.pdf"
 rename "optimizedv2 all iodepth and numjobs combos_randread_iodepth1_numjobs1.pdf" "performance.hwexperiments.optrand.pdf"
 rename "optimizedv2 all iodepth and numjobs combos_seqread_iodepth16numjobs1.pdf" "performance.hwexperiments.optseqqueue.pdf"

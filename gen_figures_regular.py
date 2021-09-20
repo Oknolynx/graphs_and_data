@@ -79,15 +79,6 @@ def nice_mode_name(mode):
         return 'Random-access read rate'
 
 
-def nice_disk_name(disk):
-    if disk == 'ssd':
-        return 'SSD'
-    elif disk == 'hdd':
-        return 'HDD'
-    elif disk == 'vmssd':
-        return 'SSD in VM'
-
-
 def nice_driver_name(driver):
     if driver == 'bitlocker':
         return 'BitLocker'
@@ -97,16 +88,10 @@ def nice_driver_name(driver):
         return 'luks2flt (optimized)'
     elif (driver == 'luks2flt') or (driver == 'luks2flt-beforemoreopts'):
         return 'luks2flt'
-    elif driver == 'nullcrypto-disabled':
-        return 'Unencrypted'
-    elif driver == 'nullcrypto-enabled':
-        return 'Null cipher'
 
 
 def nice_suffix(suffix):
     suffix_parts = []
-    if 'numjobs8' in suffix:
-        suffix_parts += ['numjobs=8']
     if 'numjobs16' in suffix:
         suffix_parts += ['numjobs=16']
     if 'iodepth16' in suffix:
@@ -139,8 +124,10 @@ def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode,
     elif mode == 'randread':
         ax.legend(loc='upper left', frameon=False)
     suffix = nice_suffix(suffix)
+    if disk == 'vmssd':
+        suffix = ', '.join(['VM', suffix]) if suffix != '' else 'VM'
     title = nice_mode_name(mode)
-    title += f' ({nice_disk_name(disk)}, {suffix})' if suffix != '' else f' ({nice_disk_name(disk)})'
+    title += f' ({suffix})' if suffix != '' else ''
     ax.set_title(title)
     ax.set_xlabel('Block size [KiB]')
     ax.set_ylabel('Read rate [MiB/s]')
