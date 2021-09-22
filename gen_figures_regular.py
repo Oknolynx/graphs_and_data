@@ -74,9 +74,9 @@ def filename_from_group_vals(mode, blocksize, driver, disk, suffix, number=''):
 
 def nice_mode_name(mode):
     if mode == 'seqread':
-        return 'Sequential read rate'
+        return 'Sequential read rates'
     elif mode == 'randread':
-        return 'Random-access read rate'
+        return 'Random-access read rates'
 
 
 def nice_driver_name(driver):
@@ -96,8 +96,8 @@ def nice_suffix(suffix):
         suffix_parts += ['numjobs=16']
     if 'iodepth16' in suffix:
         suffix_parts += ['iodepth=16']
-    if 'logmsec16' in suffix:
-        suffix_parts += ['16 ms average']
+    if 'logmsec32' in suffix:
+        suffix_parts += ['32 ms average']
     return ', '.join(suffix_parts)
 
 def generate_throughput_graphs(throughput_data, driver_names, block_sizes, mode, disk, suffix, ax):
@@ -209,7 +209,6 @@ def handle_directory(directory):
 
             fig.tight_layout()
             fig.savefig(figure_path, bbox_inches='tight')
-            # plt.show()
             plt.close(fig)
 
 

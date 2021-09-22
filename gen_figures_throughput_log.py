@@ -11,7 +11,7 @@ from os.path import basename, join
 
 JSON_FOLDER = 'json_throughput_log'
 REGEX_GROUPS = ['mode', 'blocksize', 'driver', 'disk', 'suffix']
-LINEWIDTH = 0.4
+LINEWIDTH = 0.5
 LEGEND_LINEWIDTH = 1
 
 
@@ -72,15 +72,6 @@ def get_throughput_data(filename):
         take_every_nth = 1
         arr = np.array(list(mapped_vals))[::take_every_nth]
         timestamps, throughput = arr[:, 0] / 1000, arr[:, 1] / 1024
-        if 'seqread' in filename:
-            avg_every_n = 100
-            # discard at most avg_every_n-1 elements to make length divisible by avg_every_n
-            # throughput = throughput[:(len(throughput) // avg_every_n) * avg_every_n]
-            # timestamps = timestamps[:(len(timestamps) // avg_every_n) * avg_every_n]
-            # https://stackoverflow.com/a/15956341
-            # throughput = np.mean(throughput.reshape(-1, avg_every_n), axis=1)
-            # timestamps = timestamps[::avg_every_n]
-
         return timestamps, throughput
 
 
@@ -142,11 +133,11 @@ def handle_directory(directory):
     blocksizes = sort_blocksizes(list(group_vals['blocksize']))
 
     for suffix in group_vals['suffix']:
-        if ('logmsec16iodepth1' not in suffix) or ('logmsec16iodepth16' in suffix):
+        if ('logmsec32' not in suffix) or ('iodepth16' in suffix):
             continue
         for mode in modes:
             for bs in blocksizes:
-                if '256' not in bs:
+                if bs != '32k':
                     continue
                 figure_path = join(FIGURES_FOLDER, f'{basename(directory)}_{mode}_{bs}{suffix}')
                 figure_path_boxplot = f'{figure_path}_boxplot.pdf'

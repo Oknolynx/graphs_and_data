@@ -10,7 +10,7 @@ rename "optimizedv2 all iodepth and numjobs combos_randread_iodepth1numjobs16.pd
 rename "optimizedv2 all iodepth and numjobs combos_seqread_iodepth16_numjobs16.pdf" "performance.hwexperiments.optseqthreadsqueue.pdf"
 rename "optimizedv2 all iodepth and numjobs combos_randread_iodepth16_numjobs16.pdf" "performance.hwexperiments.optrandthreadsqueue.pdf"
 
-rename "json_throughput_log_seqread_256k_logmsec16iodepth1.pdf" "performance.hwexperiments.seqovertime.pdf"
-rename "json_throughput_log_randread_256k_logmsec16iodepth1.pdf" "performance.hwexperiments.randovertime.pdf"
-rename "json_throughput_log_seqread_256k_logmsec16iodepth1_boxplot.pdf" "performance.hwexperiments.seqovertimebox.pdf"
-rename "json_throughput_log_randread_256k_logmsec16iodepth1_boxplot.pdf" "performance.hwexperiments.randovertimebox.pdf"
+rename "json_throughput_log_seqread_32k_logmsec32iodepth1.pdf" "performance.hwexperiments.seqovertime.pdf"
+rename "json_throughput_log_randread_32k_logmsec32iodepth1.pdf" "performance.hwexperiments.randovertime.pdf"
+rename "json_throughput_log_seqread_32k_logmsec32iodepth1_boxplot.pdf" "performance.hwexperiments.seqovertimebox.pdf"
+rename "json_throughput_log_randread_32k_logmsec32iodepth1_boxplot.pdf" "performance.hwexperiments.randovertimebox.pdf"
