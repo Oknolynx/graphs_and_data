@@ -34,21 +34,26 @@ def handle_directory(directory):
             
             bitlocker_vc_data = bitlocker_data / veracrypt_data
             luks2flt_vc_data = luks2flt_data / veracrypt_data
+            luks2flt_bl_data = luks2flt_data / bitlocker_data
             bitlocker_data /= luks2flt_data
             veracrypt_data /= luks2flt_data
             bitlocker_vc_percent = np.round(np.max(bitlocker_vc_data) * 100) - 100
             luks2flt_vc_percent = np.round(np.max(luks2flt_vc_data) * 100) - 100
+            luks2flt_bl_percent = np.round(np.max(luks2flt_bl_data) * 100) - 100
             bitlocker_percent = np.round(np.max(bitlocker_data) * 100) - 100
             veracrypt_percent = np.round(np.max(veracrypt_data) * 100) - 100
             bitlocker_vc_bs = 2**(np.argmax(bitlocker_vc_data) + 2)
             luks2flt_vc_bs = 2**(np.argmax(luks2flt_vc_data) + 2)
+            luks2flt_bl_bs = 2**(np.argmax(luks2flt_bl_data) + 2)
             bitlocker_bs = 2**(np.argmax(bitlocker_data) + 2)
             veracrypt_bs = 2**(np.argmax(veracrypt_data) + 2)
                 
             print(f'{mode}_{ssd}{suffix}')
             print(f'\tHighest BitLocker percentage: {bitlocker_percent}% better than luks2flt (at {bitlocker_bs} KiB), {bitlocker_vc_percent}% better than VeraCrypt (at {bitlocker_vc_bs} KiB)')
             print(f'\tHighest VeraCrypt percentage: {veracrypt_percent}% better than luks2flt (at {veracrypt_bs} KiB)')
-            print(f'\tHighest luks2flt percentage: {luks2flt_vc_percent}% better than VeraCrypt (at {luks2flt_vc_bs} KiB)')
+            print(f'\tHighest luks2flt percentage: {luks2flt_bl_percent}% better than BitLocker (at {luks2flt_bl_bs} KiB), {luks2flt_vc_percent}% better than VeraCrypt (at {luks2flt_vc_bs} KiB)')
+            print(f'\t{luks2flt_vc_data[-4:]=}')
+            print(f'\t{luks2flt_bl_data[-4:]=}')
 
 
 if __name__ == '__main__':
